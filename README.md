@@ -87,33 +87,17 @@ def upload_to_gist(content, gist_id, github_token):
         print(f"Error updating Gist: {e}")
 
 def main():
-    file_path = '/app/aggregator/data/subscribes.txt'
-
+    #file_path = '/app/aggregator/data/clash.yaml'
+    file_path = '/root/freenode/data/data/clash.yaml'
     with open(file_path, 'r') as file:
-        urls = file.read().strip().split('\n')
-
-    all_decoded_texts = []
-
-    for url in urls:
-        decoded_content = fetch_and_decode_base64(url)
-        if decoded_content:
-            all_decoded_texts.append(decoded_content)
-
-    merged_content = "\n".join(all_decoded_texts)
-    encoded_merged_content = base64.b64encode(merged_content.encode('utf-8')).decode('utf-8')
-
-    merged_file_path = '/app/aggregator/data/merged.txt'
-    with open(merged_file_path, 'w') as file:
-        file.write(encoded_merged_content)
-        print(f"Encoded merged content written to {merged_file_path}")
-
-    # Upload the merged content to the Gist
+        content = file.read()
     github_token = os.getenv('GITHUB_TOKEN')
     gist_id = os.getenv('GITHUB_GIST_ID')
-    upload_to_gist(encoded_merged_content, gist_id, github_token)
+    upload_to_gist(content, gist_id, github_token)
 
 if __name__ == "__main__":
     main()
+
 
 ```
 
